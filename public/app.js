@@ -25,8 +25,7 @@ function formatdataForBarChart(object) {
     for( var team  in  object){  
             var barChartFormat = { 
             name : team,
-            y :[5, 3, 4, 7, 2]
-            // y : Object.values(object[team])
+            y : Object.values(object[team])
         }
         jsonData.push(barChartFormat);
     }
