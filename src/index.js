@@ -11,7 +11,7 @@ jsonData["MatchesWonPerTeamPerYear"]=getNoOfMatchesWonPerTeamPerYear();
 jsonData["ExtraRunsPerTeam"]=getExtraRunsPerTeamForYear();
 jsonData["EconomicalBowler"]=getEconomicalBowlersForYear();
 
-fs.writeFile('./public/data.json',
+fs.writeFile('./public/requiredData.json',
 JSON.stringify(jsonData, null, 4),
 err => {
     if (err) {
