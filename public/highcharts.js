@@ -1,9 +1,9 @@
-fetch('./data.json').then(response => response.json()).then(data => {
+fetch('./requiredData.json').then(response => response.json()).then(data => {
     
-    chartForMatchesPerSeason(data["MatchesPlayed"]);
-    barChartForNoOfWins(data["MatchesWonPerTeamPerYear"]);
-    chartForExtraRunsPerTeam(data["ExtraRunsPerTeam"]);
-    chartForEconomicalBowlers(data["EconomicalBowler"]);
+    chartForMatchesPerSeason(requiredData["MatchesPlayed"]);
+    barChartForNoOfWins(requiredData["MatchesWonPerTeamPerYear"]);
+    chartForExtraRunsPerTeam(requiredData["ExtraRunsPerTeam"]);
+    chartForEconomicalBowlers(requiredData["EconomicalBowler"]);
 })
 
 function formatdataForColumnChart(object) {
