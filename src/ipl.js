@@ -1,6 +1,6 @@
 var csvToJson=require('./csvtojson')
-var matchesData = csvToJson('./data/matches.csv')
-var deliveryData = csvToJson('./data/deliveries.csv')
+var matchesData = csvToJson('./requiredData/matches.csv')
+var deliveryData = csvToJson('./requiredData/deliveries.csv')
 const getNoOfMatchesPlayed = () => {
   //write your code here
   const getNoOfMatches = matchesData.reduce((matchesPlayed,obj) => 
