@@ -3,38 +3,37 @@ var matchesData = csvToJson('./data/matches.csv')
 var deliveryData = csvToJson('./data/deliveries.csv')
 const getNoOfMatchesPlayed = () => {
   //write your code here
-  const getNoOfMatches = matchesData.reduce((ac,cv) => 
+  const getNoOfMatches = matchesData.reduce((matchesPlayed,obj) => 
   {
-    if(!ac[cv['season']]){
-      ac[cv['season']] = 1;
+    if(!matchesPlayed[obj['season']]){
+      matchesPlayed[obj['season']] = 1;
     }
     else{
-      ac[cv['season']] +=1;
+      matchesPlayed[obj['season']] +=1;
     }
-    return ac;
+    return matchesPlayed;
   },{});
- 
   return getNoOfMatches;
 }
 
 const getNoOfMatchesWonPerTeamPerYear = () => {
 
-  const getNoOfMatchesWon = matchesData.reduce((a,b) => {
+  const getNoOfMatchesWon = matchesData.reduce((noOfMatchesWon,eachMatch) => {
     
-    if(b["winner"]!=='')
+    if(eachMatch["winner"]!=='')
     {
-      if(!a[b['winner']]){
-      a[b['winner']] = {};
+      if(!noOfMatchesWon[eachMatch['winner']]){
+        noOfMatchesWon[eachMatch['winner']] = {};
       }
-      if(!a[b['winner']][b['season']]){
-      a[b['winner']][b['season']]= 1;
-      return a;
+      if(!noOfMatchesWon[eachMatch['winner']][eachMatch['season']]){
+        noOfMatchesWon[eachMatch['winner']][eachMatch['season']]= 1;
+      return noOfMatchesWon;
       }
-      if(a[b['winner']][b['season']]){
-      a[b['winner']][b['season']]+= 1;
+      if(noOfMatchesWon[eachMatch['winner']][eachMatch['season']]){
+        noOfMatchesWon[eachMatch['winner']][eachMatch['season']]+= 1;
       }
     }
-    return a;
+    return noOfMatchesWon;
     },{});
   
   return getNoOfMatchesWon;
@@ -43,63 +42,63 @@ const getNoOfMatchesWonPerTeamPerYear = () => {
 
 
 const getExtraRunsPerTeamForYear = () => { 
-  const getExtraRunsPerTeamForYear2016 = deliveryData.reduce((a,b) =>
+  const getExtraRunsPerTeamForYear2016 = deliveryData.reduce((extraRuns,data) =>
   {
     //[577-636]-2016
    if(b['match_id']>=577)
    { 
-      if(!a[b['bowling_team']]){
-            a[b['bowling_team']] = parseInt(b['extra_runs']);
-            return a;
+      if(!extraRuns[data['bowling_team']]){
+        extraRuns[data['bowling_team']] = parseInt(data['extra_runs']);
+            return extraRuns;
       }
-      if(a[b['bowling_team']]){
-            a[b['bowling_team']]+= parseInt(b['extra_runs']);
+      if(extraRuns[data['bowling_team']]){
+        extraRuns[data['bowling_team']]+= parseInt(data['extra_runs']);
       }
    }
-  return a;
+  return extraRuns;
   },{});
   return getExtraRunsPerTeamForYear2016;
 }
 
 const getEconomicalBowlersForYear = () => {
 //[518-576]-2015
-   let noOfBallsPerBowler = deliveryData.reduce((a,b) => {
-    if(b['match_id']>=518 && b['match_id']<=576)
+   let noOfBallsPerBowler = deliveryData.reduce((noOFBalls,data) => {
+    if(data['match_id']>=518 && data['match_id']<=576)
     {
-      if(!a[b['bowler']]){
-        a[b['bowler']] = 1;
-        return a;
+      if(!noOFBalls[data['bowler']]){
+        noOFBalls[data['bowler']] = 1;
+        return noOFBalls;
       }
-      if(a[b['bowler']]){
-        a[b['bowler']]  +=1;
+      if(noOFBalls[data['bowler']]){
+        noOFBalls[data['bowler']]  +=1;
       }
     }
-    return a;
+    return noOFBalls;
    },{});
 
-   let totalNoOfRunsPerBowler = deliveryData.reduce((a,b) => {
-    if(b['match_id']>=518 && b['match_id']<=576)
+   let totalNoOfRunsPerBowler = deliveryData.reduce((totalNoOfRuns,data) => {
+    if(data['match_id']>=518 && data['match_id']<=576)
     {
-       if(!a[b['bowler']]){
-           a[b['bowler']] = parseInt(b['total_runs']);
-           return a;
+       if(!totalNoOfRuns[data['bowler']]){
+        totalNoOfRuns[data['bowler']] = parseInt(data['total_runs']);
+           return totalNoOfRuns;
         }
-        if(a[b['bowler']]){
-           a[b['bowler']] += parseInt(b['total_runs']);
+        if(totalNoOfRuns[data['bowler']]){
+          totalNoOfRuns[data['bowler']] += parseInt(data['total_runs']);
         } 
     }
-      return a;
+      return totalNoOfRuns;
     },{});
 
-  let  economyOfBowlerPerYear = deliveryData.reduce((a,b) => {
-    if(b['match_id']>=518 && b['match_id']<=576) 
+  let  economyOfBowlerPerYear = deliveryData.reduce((economicValue,data) => {
+    if(data['match_id']>=518 && data['match_id']<=576) 
    {
-      if(!a[b['bowler']]){
-      a[b['bowler']] = (totalNoOfRunsPerBowler[b['bowler']]/noOfBallsPerBowler[b['bowler']])*6;
-      return a;
+      if(!economicValue[data['bowler']]){
+        economicValue[data['bowler']] = (totalNoOfRunsPerBowler[data['bowler']]/noOfBallsPerBowler[data['bowler']])*6;
+      return economicValue;
      }
    }
-   return a;
+   return economicValue;
    },{});
   
    let economyOfBowlerPerYearIntoArray = Object.keys(economyOfBowlerPerYear).map(bowler => {
@@ -122,7 +121,6 @@ const getEconomicalBowlersForYear = () => {
 }
 
 //getEconomicalBowlersForYear();
-
 //console.log(getEconomicalBowlersForYear());
 
 module.exports.getNoOfMatchesPlayed = getNoOfMatchesPlayed
