@@ -7,6 +7,7 @@ fetch('./data.json').then(response => response.json()).then(data => {
 })
 
 function formatdataForColumnChart(object) {
+    //write your code to convert jsondata for the column chart format.
     var jsonData = [];
     for( var item  in  object){
         var columnChartFormat = { 
@@ -16,21 +17,24 @@ function formatdataForColumnChart(object) {
         jsonData.push(columnChartFormat);
     }
   return jsonData;
-    //write your code to convert jsondata for the column chart format.
-   
 }
 
 function formatdataForBarChart(object) {
+    //write your code to convert jsondata for the Bar chart format.
     var jsonData = [];
-    for( var team  in  object){  
+    var years = ['2008', '2009', '2010', '2011', '2012','2013','2014','2015','2016','2017']
+    for( var team  in  object){
+        var array =[];
+            for(var i=0;i<years.length;i++){
+                array.push((object[team].hasOwnProperty(years[i]))?object[team][years[i]]:0);
+            }
             var barChartFormat = { 
             name : team,
-            y : Object.values(object[team])
-        }
+            data : array
+            }
         jsonData.push(barChartFormat);
     }
     return jsonData;
-     //write your code to convert jsondata for the Bar chart format.
 }
 
 function chartForMatchesPerSeason(jsonData){
@@ -75,7 +79,7 @@ function chartForMatchesPerSeason(jsonData){
 
     series: [
         {
-            name: "Browsers",
+            name: "no.of matches played",
             colorByPoint: true,
             data: jsondataForHighChart
         }
@@ -159,7 +163,7 @@ function chartForExtraRunsPerTeam(jsonData){
     
         series: [
             {
-                name: "Browsers",
+                name: "extraruns for 2016",
                 colorByPoint: true,
                 data: jsondataForHighChart
             }
@@ -211,7 +215,7 @@ function chartForEconomicalBowlers(jsonData){
 
     series: [
         {
-            name: "Browsers",
+            name: "economic value for 2015",
             colorByPoint: true,
             data: jsondataForHighChart
         }
